@@ -1,22 +1,28 @@
-import { invoke } from "@tauri-apps/api/core";
+const canvas = document.getElementById('signature-box') as HTMLCanvasElement;
+const context = canvas.getContext('2d');
+let isDrawing = false;
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
-}
+const startDrawing = (event: PointerEvent) => {
+  isDrawing = true;
+  context?.beginPath();
+  context?.moveTo(event.clientX, event.clientY);
+};
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
-});
+const draw = (event: PointerEvent) => {
+  if (!isDrawing) return;
+  context?.lineTo(event.clientX, event.clientY);
+  context?.stroke();
+};
+
+const stopDrawing = () => {
+  isDrawing = false;
+  context?.closePath();
+};
+
+canvas.addEventListener('pointerdown', startDrawing);
+canvas.addEventListener('pointermove', draw);
+canvas.addEventListener('pointerup', stopDrawing);
+canvas.addEventListener('pointerleave', stopDrawing);

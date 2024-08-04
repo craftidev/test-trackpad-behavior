@@ -35,10 +35,13 @@ async function startSerialEventListener() {
 
 document.getElementById('start-button')?.addEventListener('click', () => {
     const logger = document.getElementById('logger');
+
     if (logger) {
         logger.innerText += "Start button clicked\n";
     }
+
     startSerialEventListener();
+    
     invoke('test_app_handle').then(() => {
         if (logger) {
             logger.innerText += "Test command invoked\n";

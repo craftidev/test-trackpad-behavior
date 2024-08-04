@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mouse Tracker</title>
-    <!-- Ensure Tauri API is included -->
-    <script src="https://cdn.jsdelivr.net/npm/@tauri-apps/api@latest/dist/tauri.js"></script>
+    <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
     <div id="x-coord">X: </div>
     <div id="y-coord">Y: </div>
+    <canvas id="signature-pad"></canvas>
     <button id="start-button">Start Listening</button>
     <div id="logger" style="white-space: pre-wrap; background: #f4f4f4; padding: 10px; margin-top: 20px; border: 1px solid #ccc;"></div>
     <script type="module" src="src/main.ts"></script>

@@ -21,3 +21,4 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 device_query = "2.1.0"
 tokio = { version = "1", features = ["full"] }
+mouse-rs = "0.4"

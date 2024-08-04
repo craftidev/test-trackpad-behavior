@@ -1,28 +1,51 @@
-const canvas = document.getElementById('signature-box') as HTMLCanvasElement;
-const context = canvas.getContext('2d');
-let isDrawing = false;
+import { invoke } from "@tauri-apps/api/core"
+import { listen } from '@tauri-apps/api/event';
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const logger = document.getElementById('logger');
 
-const startDrawing = (event: PointerEvent) => {
-  isDrawing = true;
-  context?.beginPath();
-  context?.moveTo(event.clientX, event.clientY);
+type Payload = {
+    message: string;
 };
+if (logger) {
+    logger.innerText += window.location.origin + '\n';
+}
 
-const draw = (event: PointerEvent) => {
-  if (!isDrawing) return;
-  context?.lineTo(event.clientX, event.clientY);
-  context?.stroke();
-};
+async function startSerialEventListener() {
+    if (logger) {
+        logger.innerText += "Starting event listeners\n";
+    }
 
-const stopDrawing = () => {
-  isDrawing = false;
-  context?.closePath();
-};
+    await listen<Payload>('event-name', (event) => {
+        if (logger) {
+            logger.innerText += "Event triggered from Rust! Payload: " + event.payload.message + '\n';
+        }
+    });
 
-canvas.addEventListener('pointerdown', startDrawing);
-canvas.addEventListener('pointermove', draw);
-canvas.addEventListener('pointerup', stopDrawing);
-canvas.addEventListener('pointerleave', stopDrawing);
+    await listen<{ 0: number, 1: number }>('mouse_move', (event) => {
+        const { 0: x, 1: y } = event.payload;
+        const xCoordDiv = document.getElementById('x-coord');
+        const yCoordDiv = document.getElementById('y-coord');
+
+        if (xCoordDiv && yCoordDiv) {
+            xCoordDiv.textContent = `X: ${x}`;
+            yCoordDiv.textContent = `Y: ${y}`;
+        }
+    });
+}
+
+document.getElementById('start-button')?.addEventListener('click', () => {
+    const logger = document.getElementById('logger');
+    if (logger) {
+        logger.innerText += "Start button clicked\n";
+    }
+    startSerialEventListener();
+    invoke('test_app_handle').then(() => {
+        if (logger) {
+            logger.innerText += "Test command invoked\n";
+        }
+    }).catch((e) => {
+        if (logger) {
+            logger.innerText += "Failed to invoke test command: " + e + '\n';
+        }
+    });
+});

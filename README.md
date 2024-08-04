@@ -17,7 +17,7 @@ Win application. Transform your trackpad into a signature pad like iOS laptop do
    First, we can customize the lib signature_pad to behave like we want too, draw with movement without needing a click.
 
    But if needed we definetly can trick mouse events:
-   ```typescript
+```typescript
    export function drawOnCanvasWithOnlyMouseMovement(canvas: HTMLCanvasElement): void {
     // let isOnCanvas = false;
     var simulateMouseDownEvent = new MouseEvent("mousedown");
@@ -30,7 +30,8 @@ Win application. Transform your trackpad into a signature pad like iOS laptop do
         canvas.addEventListener('click', () => {
             canvas.dispatchEvent(simulateMouseDownEvent);
         });
-    ```
+        // ...
+```
 
 # TODOs
 

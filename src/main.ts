@@ -1,24 +1,18 @@
 import { invoke } from "@tauri-apps/api/core"
 import { listen } from '@tauri-apps/api/event';
-
-const logger = document.getElementById('logger');
+import { logger } from "./utils/logger";
 
 type Payload = {
     message: string;
 };
-if (logger) {
-    logger.innerText += window.location.origin + '\n';
-}
+
+logger(window.location.origin);
 
 async function startSerialEventListener() {
-    if (logger) {
-        logger.innerText += "Starting event listeners\n";
-    }
+    logger("Starting event listeners");
 
     await listen<Payload>('event-name', (event) => {
-        if (logger) {
-            logger.innerText += "Event triggered from Rust! Payload: " + event.payload.message + '\n';
-        }
+        logger("Event triggered from Rust! Payload: " + event.payload.message);
     });
 
     await listen<{ 0: number, 1: number }>('mouse_move', (event) => {
@@ -34,21 +28,13 @@ async function startSerialEventListener() {
 }
 
 document.getElementById('start-button')?.addEventListener('click', () => {
-    const logger = document.getElementById('logger');
-
-    if (logger) {
-        logger.innerText += "Start button clicked\n";
-    }
+    logger("Start button clicked");
 
     startSerialEventListener();
-    
+
     invoke('test_app_handle').then(() => {
-        if (logger) {
-            logger.innerText += "Test command invoked\n";
-        }
+        logger("Test command invoked");
     }).catch((e) => {
-        if (logger) {
-            logger.innerText += "Failed to invoke test command: " + e + '\n';
-        }
+        logger("Failed to invoke test command: " + e);
     });
 });

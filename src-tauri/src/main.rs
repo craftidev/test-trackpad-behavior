@@ -3,6 +3,7 @@
 use device_query::{DeviceEvents, DeviceState};
 use tauri::{AppHandle, Wry, Emitter, generate_context, generate_handler};
 use tokio::{sync::mpsc::unbounded_channel, task};
+use mouse_rs::Mouse;
 
 // Define the payload struct
 #[derive(Clone, serde::Serialize)]
@@ -14,6 +15,8 @@ struct Payload {
 #[tauri::command]
 async fn test_app_handle(app: AppHandle<Wry>) {
     app.emit("event-name", Payload { message: "Tauri is awesome!".into() }).unwrap();
+    let mouse = Mouse::new();
+    mouse.move_to(500, 500).expect("Unable to move mouse");
 }
 
 #[tokio::main]

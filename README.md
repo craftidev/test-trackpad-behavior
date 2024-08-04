@@ -8,7 +8,7 @@ Win application. Transform your trackpad into a signature pad like iOS laptop do
 
 # Solutions, not implemented
 
-**Simulating Mouse Clicks or Changing Canvas Behavior**
+## **Simulating Mouse Clicks or Changing Canvas Behavior**
    - **Option 1**: Test if the canvas can be configured to draw based solely on mouse movement without requiring a mouse click.
    - **Option 2**: Test if you can programmatically simulate mouse click events to enable drawing on the canvas. This might involve sending synthetic events to the canvas to simulate drawing actions.
 

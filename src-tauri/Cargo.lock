@@ -3291,7 +3291,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-build"
-version = "2.0.0-rc.0"
+version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "85ceb8d082c3b17b4b2eb134a39363a22c696ddba473d6e5c0ab1caadad4cfca"
 dependencies = [
@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-codegen"
-version = "2.0.0-rc.0"
+version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2407c7d37a491b16e530445c9611d91091cae198eea2ed424913b740215605f2"
 dependencies = [
